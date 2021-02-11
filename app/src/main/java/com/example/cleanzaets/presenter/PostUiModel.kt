@@ -3,7 +3,8 @@ package com.example.cleanzaets.presenter
 import androidx.annotation.ColorInt
 
 sealed class PostUiModel {
-    data class NormalPost(
+
+    data class StandardPost(
         val userId: String,
         val title: String,
         val body: String,
@@ -13,7 +14,7 @@ sealed class PostUiModel {
     ) : PostUiModel()
 
     data class BannedPost(
-        val userId: String,
+        val warningText: String,
         @ColorInt
         val backgroundColor: Int
     ) : PostUiModel()

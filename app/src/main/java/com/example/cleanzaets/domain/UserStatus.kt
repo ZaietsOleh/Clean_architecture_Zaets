@@ -1,7 +1,7 @@
 package com.example.cleanzaets.domain
 
 enum class UserStatus {
-    NORMAL,
+    STANDARD,
     HAS_WARNING,
     BANNED
 }

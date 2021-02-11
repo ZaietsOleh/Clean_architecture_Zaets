@@ -6,7 +6,7 @@ import com.example.cleanzaets.domain.PostModel
 import com.example.cleanzaets.domain.UserStatus
 import com.example.cleanzaets.shared.PostErrors
 import com.example.cleanzaets.utils.ResourceRepository
-import com.example.cleanzaets.presenter.PostUiModel.NormalPost
+import com.example.cleanzaets.presenter.PostUiModel.StandardPost
 import com.example.cleanzaets.presenter.PostUiModel.BannedPost
 
 class PostUiMapper(private val resourceRepository: ResourceRepository) {
@@ -14,14 +14,14 @@ class PostUiMapper(private val resourceRepository: ResourceRepository) {
         return postResult.mapSuccess { listOfPostModel ->
             listOfPostModel.map { postModel ->
                 when (postModel.userStatus) {
-                    UserStatus.NORMAL -> NormalPost (
+                    UserStatus.STANDARD -> StandardPost (
                         userId = postModel.userId.toString(),
                         title = postModel.title,
                         body = postModel.body,
                         hasWarning = false,
                         backgroundColor = resourceRepository.getColor(R.color.normal_post)
                     )
-                    UserStatus.HAS_WARNING -> NormalPost (
+                    UserStatus.HAS_WARNING -> StandardPost (
                         userId = postModel.userId.toString(),
                         title = postModel.title,
                         body = postModel.body,
@@ -29,7 +29,7 @@ class PostUiMapper(private val resourceRepository: ResourceRepository) {
                         backgroundColor = resourceRepository.getColor(R.color.has_warning)
                     )
                     UserStatus.BANNED -> BannedPost (
-                        userId = postModel.userId.toString(),
+                        warningText = String.format(resourceRepository.getString(R.string.banned_text), postModel.userId),
                         backgroundColor = resourceRepository.getColor(R.color.banned)
                     )
                 }
