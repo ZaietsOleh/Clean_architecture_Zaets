@@ -21,6 +21,7 @@ class PostPresenter (
     }
 
     fun detachView() {
+        val num = 4
         attachedView = null
         cancelableOperation?.cancel()
     }
