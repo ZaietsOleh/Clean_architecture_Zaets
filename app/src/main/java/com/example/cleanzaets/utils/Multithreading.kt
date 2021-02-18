@@ -2,8 +2,9 @@ package com.example.cleanzaets.utils
 
 import android.content.Context
 import android.os.Handler
+import javax.inject.Inject
 
-class Multithreading(context: Context) {
+class Multithreading @Inject constructor(context: Context) {
     private val mainHandler = Handler(context.mainLooper)
 
     fun <T> async(operation: () -> T): AsyncOperation<T> {

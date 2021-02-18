@@ -2,9 +2,9 @@ package com.example.cleanzaets.utils
 
 import android.content.Context
 import com.example.cleanzaets.data.PostRepository
-import com.example.cleanzaets.domain.PostModelMapper
+import com.example.cleanzaets.data.PostService
 import com.example.cleanzaets.presenter.PostPresenter
-import com.example.cleanzaets.presenter.PostUiMapper
+import com.example.cleanzaets.ui.PostUiMapper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -14,7 +14,6 @@ object PostComponent {
                 postRepository = PostRepository(
                         multithreading = Multithreading(context),
                         postService = createService(),
-                        postModelMapper = PostModelMapper()
                 ),
                 postUiMapper = PostUiMapper(
                         resourceRepository = ResourceRepository(context)

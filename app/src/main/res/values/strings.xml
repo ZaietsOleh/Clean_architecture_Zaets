@@ -3,4 +3,7 @@
     <string name="post_loading_error">Post loading error</string>
     <string name="with_warnings">З попередженням</string>
     <string name="banned_text">Тут міг бути пост юзера %d, але він забанений</string>
+    <string name="add_post">Add post</string>
+    <string name="title">Title</string>
+    <string name="body">Body</string>
 </resources>

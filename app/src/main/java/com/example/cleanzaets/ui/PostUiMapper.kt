@@ -1,4 +1,4 @@
-package com.example.cleanzaets.presenter
+package com.example.cleanzaets.ui
 
 import com.example.cleanzaets.R
 import com.example.cleanzaets.shared.Result
@@ -6,10 +6,11 @@ import com.example.cleanzaets.domain.PostModel
 import com.example.cleanzaets.domain.UserStatus
 import com.example.cleanzaets.shared.PostErrors
 import com.example.cleanzaets.utils.ResourceRepository
-import com.example.cleanzaets.presenter.PostUiModel.StandardPost
-import com.example.cleanzaets.presenter.PostUiModel.BannedPost
+import com.example.cleanzaets.ui.PostUiModel.StandardPost
+import com.example.cleanzaets.ui.PostUiModel.BannedPost
+import javax.inject.Inject
 
-class PostUiMapper(private val resourceRepository: ResourceRepository) {
+class PostUiMapper @Inject constructor(private val resourceRepository: ResourceRepository) {
     fun map(postResult: Result<List<PostModel>, PostErrors>): Result<List<PostUiModel>, String> {
         return postResult.mapSuccess { listOfPostModel ->
             listOfPostModel.map { postModel ->

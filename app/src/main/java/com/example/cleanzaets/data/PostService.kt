@@ -1,4 +1,4 @@
-package com.example.cleanzaets.utils
+package com.example.cleanzaets.data
 
 import com.example.cleanzaets.data.Post
 import retrofit2.Call
