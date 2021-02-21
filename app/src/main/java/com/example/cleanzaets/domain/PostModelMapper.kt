@@ -1,13 +1,15 @@
 package com.example.cleanzaets.domain
 
-import com.example.cleanzaets.shared.PostErrors
 import com.example.cleanzaets.shared.Result
-import com.example.cleanzaets.data.Post
 import com.example.cleanzaets.data.UserRepository
+import com.example.cleanzaets.data.datasource.database.Post
+import javax.inject.Inject
 
-class PostModelMapper {
-    fun map(postResult: Result<List<Post>, PostErrors>): Result<List<PostModel>, PostErrors> {
-        val badUsers = UserRepository().getBadUsers()
+class PostModelMapper @Inject constructor(
+    private val userRepository: UserRepository
+) {
+    fun map(postResult: Result<List<Post>, String>): Result<List<PostModel>, String> {
+        val badUsers = userRepository.getBadUsers()
         return postResult.mapSuccess { listOfPost ->
             listOfPost.map { post ->
                 val userStatus: UserStatus? = badUsers.find{ it.userId == post.userId }?.userStatus

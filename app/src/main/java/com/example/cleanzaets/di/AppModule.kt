@@ -1,12 +1,20 @@
-package com.example.cleanzaets.utils
+package com.example.cleanzaets.di
 
 import android.content.Context
+import androidx.room.Room
 import com.example.cleanzaets.data.PostRepository
-import com.example.cleanzaets.data.PostService
+import com.example.cleanzaets.data.datasource.PostService
+import com.example.cleanzaets.data.UserRepository
+import com.example.cleanzaets.data.datasource.database.PostDao
+import com.example.cleanzaets.data.datasource.database.PostDatabase
 import com.example.cleanzaets.domain.PostInteractor
 import com.example.cleanzaets.domain.PostModelMapper
 import com.example.cleanzaets.ui.PostUiMapper
+import com.example.cleanzaets.ui.addpost.AddPostViewModel
 import com.example.cleanzaets.ui.postviewer.ViewPostsViewModel
+import com.example.cleanzaets.utils.DATABASE_NAME
+import com.example.cleanzaets.utils.Multithreading
+import com.example.cleanzaets.utils.ResourceRepository
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -73,19 +81,47 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun providePostRepository(multithreading: Multithreading, postService: PostService) : PostRepository {
-        return PostRepository(multithreading = multithreading, postService = postService)
+    fun providePostRepository(multithreading: Multithreading, postService: PostService, postDao: PostDao) : PostRepository {
+        return PostRepository(multithreading = multithreading, postService = postService, postDao = postDao)
     }
 
     @Provides
     @Singleton
-    fun providePostModelMapper() : PostModelMapper {
-        return PostModelMapper()
+    fun provideUserRepository() : UserRepository {
+        return UserRepository()
+    }
+
+    @Provides
+    @Singleton
+    fun providePostModelMapper(userRepository: UserRepository) : PostModelMapper {
+        return PostModelMapper(userRepository)
     }
 
     @Provides
     @Singleton
     fun provideViewPostsViewModel(postInteractor: PostInteractor, postUiMapper: PostUiMapper) : ViewPostsViewModel {
         return ViewPostsViewModel(postInteractor = postInteractor, postUiMapper = postUiMapper)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddPostViewModel(postInteractor: PostInteractor) : AddPostViewModel {
+        return AddPostViewModel(postInteractor = postInteractor)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDatabase(context: Context) : PostDatabase {
+        return Room.databaseBuilder(
+            context,
+            PostDatabase::class.java,
+            DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun providePostDao(postDatabase: PostDatabase) : PostDao {
+        return postDatabase.postDao()
     }
 }

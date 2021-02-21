@@ -38,20 +38,21 @@ android {
 
 dependencies {
 
+    //Room
+    implementation "androidx.room:room-runtime:2.2.6"
+    kapt "androidx.room:room-compiler:2.2.6"
+
     //Lifecycle
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.3'
 
     //Dagger2
-    def daggerVer = 2.32 // or latest version
+    def daggerVer = 2.32
 
     implementation "com.google.dagger:dagger:$daggerVer"
     implementation "com.google.dagger:dagger-android-support:$daggerVer"
     kapt "com.google.dagger:dagger-android-processor:$daggerVer"
     kapt "com.google.dagger:dagger-compiler:$daggerVer"
-
-//    implementation 'com.google.dagger:dagger:2.32'
-//    kapt 'com.google.dagger:dagger-compiler:2.32'
 
     //Material dialog
     implementation 'com.afollestad.material-dialogs:core:3.3.0'

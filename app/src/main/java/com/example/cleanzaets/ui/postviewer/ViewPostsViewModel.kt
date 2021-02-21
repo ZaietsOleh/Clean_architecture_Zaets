@@ -1,5 +1,6 @@
 package com.example.cleanzaets.ui.postviewer
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cleanzaets.domain.PostInteractor

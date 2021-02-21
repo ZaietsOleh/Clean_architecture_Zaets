@@ -3,7 +3,7 @@ package com.example.cleanzaets.data
 import com.example.cleanzaets.domain.BadUserModel
 import com.example.cleanzaets.domain.UserStatus
 
-class UserRepository() {
+class UserRepository {
     companion object {
         private const val FIRST_WARNINGS_USER = 3
         private const val SECOND_WARNINGS_USER = 4

@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.example.cleanzaets.utils.AppModule
-import com.example.cleanzaets.utils.DaggerAppComponent
+import com.example.cleanzaets.di.AppModule
 import com.example.cleanzaets.R
 import com.example.cleanzaets.databinding.FragmentViewPostsBinding
+import com.example.cleanzaets.di.DaggerAppComponent
 import com.example.cleanzaets.ui.PostUiModel
 import com.example.cleanzaets.ui.BaseFragment
 import com.example.cleanzaets.ui.postviewer.adapter.PostAdapter
@@ -23,9 +23,7 @@ class ViewPostsFragment : BaseFragment(R.layout.fragment_view_posts) {
     @Inject
     lateinit var viewModel: ViewPostsViewModel
     private lateinit var binding: FragmentViewPostsBinding
-    private val adapter by lazy {
-        PostAdapter()
-    }
+    private lateinit var adapter: PostAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,6 +74,7 @@ class ViewPostsFragment : BaseFragment(R.layout.fragment_view_posts) {
     }
 
     private fun setupRecyclerAdapter() {
+        adapter = PostAdapter()
         binding.apply {
             rvPosts.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             rvPosts.adapter = adapter
