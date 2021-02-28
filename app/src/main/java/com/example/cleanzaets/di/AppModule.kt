@@ -13,12 +13,12 @@ import com.example.cleanzaets.ui.PostUiMapper
 import com.example.cleanzaets.ui.addpost.AddPostViewModel
 import com.example.cleanzaets.ui.postviewer.ViewPostsViewModel
 import com.example.cleanzaets.utils.DATABASE_NAME
-import com.example.cleanzaets.utils.Multithreading
 import com.example.cleanzaets.utils.ResourceRepository
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -30,6 +30,7 @@ class AppModule(private val context: Context) {
     fun provideRetrofit(gsonConverterFactory: GsonConverterFactory): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://jsonplaceholder.typicode.com/")
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(gsonConverterFactory)
             .build()
     }
@@ -46,13 +47,6 @@ class AppModule(private val context: Context) {
     @Singleton
     fun providePostService(retrofit: Retrofit) : PostService {
         return retrofit.create(PostService::class.java)
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideMultithreading(context: Context): Multithreading {
-        return Multithreading(context = context)
     }
 
     @Provides
@@ -81,14 +75,8 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun providePostRepository(multithreading: Multithreading, postService: PostService, postDao: PostDao) : PostRepository {
-        return PostRepository(multithreading = multithreading, postService = postService, postDao = postDao)
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserRepository() : UserRepository {
-        return UserRepository()
+    fun providePostRepository(postService: PostService, postDao: PostDao) : PostRepository {
+        return PostRepository(postService = postService, postDao = postDao)
     }
 
     @Provides

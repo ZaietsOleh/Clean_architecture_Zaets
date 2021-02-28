@@ -12,7 +12,7 @@ class PostModelMapper @Inject constructor(
         val badUsers = userRepository.getBadUsers()
         return postResult.mapSuccess { listOfPost ->
             listOfPost.map { post ->
-                val userStatus: UserStatus? = badUsers.find{ it.userId == post.userId }?.userStatus
+                val userStatus: UserStatus? = badUsers.find { it.userId == post.userId }?.userStatus
 
                 PostModel(
                     id = post.id,
@@ -23,5 +23,18 @@ class PostModelMapper @Inject constructor(
                 )
             }
         }
+    }
+
+    fun mapOne(post: Post): PostModel {
+        val badUsers = userRepository.getBadUsers()
+        val userStatus: UserStatus? = badUsers.find { it.userId == post.userId }?.userStatus
+
+        return PostModel(
+            id = post.id,
+            userId = post.userId,
+            title = post.title,
+            body = post.body,
+            userStatus = userStatus ?: UserStatus.STANDARD
+        )
     }
 }

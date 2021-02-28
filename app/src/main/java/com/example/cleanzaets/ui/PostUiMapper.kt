@@ -34,4 +34,25 @@ class PostUiMapper @Inject constructor(private val resourceRepository: ResourceR
             }
         }.mapError { resourceRepository.getString(R.string.post_loading_error) }
     }
+
+    fun mapOne(postModel: PostModel): PostUiModel {
+        val userStatus = postModel.userStatus
+        return if (userStatus == UserStatus.BANNED) {
+            BannedPost (
+                warningText = String.format(resourceRepository.getString(R.string.banned_text), postModel.userId),
+                backgroundColor = resourceRepository.getColor(R.color.banned)
+            )
+        } else {
+            StandardPost (
+                userId = postModel.userId.toString(),
+                title = postModel.title,
+                body = postModel.body,
+                hasWarning = userStatus == UserStatus.HAS_WARNING,
+                backgroundColor = if (userStatus == UserStatus.HAS_WARNING)
+                    resourceRepository.getColor(R.color.has_warning)
+                else
+                    resourceRepository.getColor(R.color.white)
+            )
+        }
+    }
 }
