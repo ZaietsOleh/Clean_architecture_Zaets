@@ -11,9 +11,6 @@ interface PostDao {
     @Query("SELECT * FROM POST ORDER BY ID_RECORD DESC")
     fun getPosts() : Observable<List<Post>>
 
-    @Query("DELETE FROM POST")
-    fun clearTable()
-
     @Insert
     fun insertPosts(posts: List<Post>)
 

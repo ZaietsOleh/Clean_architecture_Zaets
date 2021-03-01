@@ -10,6 +10,7 @@ import com.example.cleanzaets.databinding.FragmentViewPostsBinding
 import com.example.cleanzaets.di.DaggerAppComponent
 import com.example.cleanzaets.ui.PostUiModel
 import com.example.cleanzaets.ui.BaseFragment
+import com.example.cleanzaets.ui.State
 import com.example.cleanzaets.ui.postviewer.adapter.PostAdapter
 import javax.inject.Inject
 
@@ -34,14 +35,6 @@ class ViewPostsFragment : BaseFragment(R.layout.fragment_view_posts) {
         setupRecyclerAdapter()
         setupClickListener()
 
-        viewModel.setOnLoadingPostsError { errorText ->
-            binding.pbLoading.visibility = View.GONE
-            MaterialDialog(requireContext()).show {
-                title(text = "Error")
-                message(text = errorText)
-                icon(R.drawable.ic_launcher_foreground)
-            }
-        }
         viewModel.getPost()
     }
 
@@ -58,9 +51,22 @@ class ViewPostsFragment : BaseFragment(R.layout.fragment_view_posts) {
         }
     }
 
-    private fun updatePostsList(postUiList: List<PostUiModel>?) {
-        binding.pbLoading.visibility = View.GONE
-        adapter.submitList(postUiList)
+    private fun updatePostsList(state: State<List<PostUiModel>, Int>) {
+        when (state) {
+            is State.Loading -> binding.pbLoading.visibility = View.VISIBLE
+            is State.Content -> {
+                binding.pbLoading.visibility = View.GONE
+                adapter.submitList(state.data)
+            }
+            is State.Error -> {
+                binding.pbLoading.visibility = View.GONE
+                MaterialDialog(requireContext()).show {
+                    title(R.string.error_dialog_title)
+                    message(state.error)
+                    icon(R.drawable.ic_launcher_foreground)
+                }
+            }
+        }
     }
 
     private fun setupClickListener() {

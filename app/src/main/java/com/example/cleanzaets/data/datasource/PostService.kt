@@ -1,7 +1,6 @@
 package com.example.cleanzaets.data.datasource
 
 import com.example.cleanzaets.data.datasource.database.Post
-import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.http.GET
 

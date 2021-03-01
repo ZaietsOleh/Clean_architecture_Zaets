@@ -2,12 +2,9 @@ package com.example.cleanzaets.domain
 
 import com.example.cleanzaets.data.PostRepository
 import com.example.cleanzaets.data.datasource.database.Post
-import com.example.cleanzaets.shared.Result
 import com.example.cleanzaets.ui.addpost.AddPostState
 import com.example.cleanzaets.ui.addpost.RawPost
-import io.reactivex.Flowable
 import io.reactivex.Observable
-import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 
@@ -22,9 +19,12 @@ class PostInteractor @Inject constructor(
         private const val MAXIMUM_BODY_LENGTH = 500
         private const val ID = 1
         private const val USER_ID = 5
+        private const val AD_BAD_WORD = "реклама"
+        private const val PRODUCT_BAD_WORD = "товар"
+        private const val BUY_BAD_WORD = "куплю"
     }
 
-    fun getPosts(): Observable<Result<List<PostModel>, String>> {
+    fun getPosts(): Observable<List<PostModel>> {
         return postRepository.getPosts()
             .map(postModelMapper::map)
     }
@@ -53,9 +53,9 @@ class PostInteractor @Inject constructor(
     private fun hasBadWord(text: String): Boolean {
         val lowerCaseText = text.toLowerCase(Locale.ROOT)
         return when {
-            lowerCaseText.contains("реклама") -> true
-            lowerCaseText.contains("товар") -> true
-            lowerCaseText.contains("куплю") -> true
+            lowerCaseText.contains(AD_BAD_WORD) -> true
+            lowerCaseText.contains(PRODUCT_BAD_WORD) -> true
+            lowerCaseText.contains(BUY_BAD_WORD) -> true
             else -> false
         }
     }

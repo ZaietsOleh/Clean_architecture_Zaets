@@ -1,9 +1,7 @@
 package com.example.cleanzaets.ui
 
 import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.example.cleanzaets.ui.BaseFragment
 import com.example.cleanzaets.ui.addpost.AddPostFragment
 import com.example.cleanzaets.ui.postviewer.ViewPostsFragment
 
