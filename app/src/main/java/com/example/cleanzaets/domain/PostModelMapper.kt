@@ -7,18 +7,16 @@ import javax.inject.Inject
 class PostModelMapper @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    fun map(postResult: List<Post>): List<PostModel> {
+    fun map(postResult: Post): PostModel {
         val badUsers = userRepository.getBadUsers()
-        return postResult.map { post ->
-            val userStatus: UserStatus? = badUsers.find { it.userId == post.userId }?.userStatus
+        val userStatus: UserStatus? = badUsers.find { it.userId == postResult.userId }?.userStatus
 
-            PostModel(
-                id = post.id,
-                userId = post.userId,
-                title = post.title,
-                body = post.body,
-                userStatus = userStatus ?: UserStatus.STANDARD
-            )
-        }
+        return PostModel(
+            id = postResult.id,
+            userId = postResult.userId,
+            title = postResult.title,
+            body = postResult.body,
+            userStatus = userStatus ?: UserStatus.STANDARD
+        )
     }
 }

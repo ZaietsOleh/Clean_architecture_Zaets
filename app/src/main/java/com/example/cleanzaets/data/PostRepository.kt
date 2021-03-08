@@ -3,29 +3,22 @@ package com.example.cleanzaets.data
 import com.example.cleanzaets.data.datasource.PostService
 import com.example.cleanzaets.data.datasource.database.Post
 import com.example.cleanzaets.data.datasource.database.PostDao
-import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
     private val postService: PostService,
     private val postDao: PostDao
 ) {
-    fun getPosts(): Observable<List<Post>> {
-        return postDao.getPosts()
-            .map { posts ->
-                if (posts.isEmpty()) {
-                    postService.getPosts()
-                        .subscribeOn(Schedulers.io())
-                        .subscribe { postsFromRemoteSource ->
-                            postDao.insertPosts(postsFromRemoteSource.reversed())
-                        }
-                }
-                return@map posts
-            }
+    suspend fun getPosts(): List<Post> {
+        val posts = postDao.getPosts()
+        if (posts.isEmpty()) {
+            postDao.insertPosts(postService.getPosts().reversed())
+            return postDao.getPosts()
+        }
+        return posts
     }
 
-    fun addPost(post: Post) {
+    suspend fun addPost(post: Post) {
         postDao.insertPost(post)
     }
 }

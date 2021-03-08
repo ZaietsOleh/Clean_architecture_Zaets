@@ -4,7 +4,6 @@ import com.example.cleanzaets.data.PostRepository
 import com.example.cleanzaets.data.datasource.database.Post
 import com.example.cleanzaets.ui.addpost.AddPostState
 import com.example.cleanzaets.ui.addpost.RawPost
-import io.reactivex.Observable
 import java.util.*
 import javax.inject.Inject
 
@@ -24,12 +23,12 @@ class PostInteractor @Inject constructor(
         private const val BUY_BAD_WORD = "куплю"
     }
 
-    fun getPosts(): Observable<List<PostModel>> {
+    suspend fun getPosts(): List<PostModel> {
         return postRepository.getPosts()
             .map(postModelMapper::map)
     }
 
-    fun addPost(post: RawPost): AddPostState {
+    suspend fun addPost(post: RawPost): AddPostState {
         val title = post.title
         val body = post.body
         when {

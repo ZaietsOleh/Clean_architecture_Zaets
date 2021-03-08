@@ -2,6 +2,7 @@ package com.example.cleanzaets.ui.addpost
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.observe
 import com.example.cleanzaets.R
 import com.example.cleanzaets.databinding.FragmentAddPostBinding
 import com.example.cleanzaets.ui.BaseFragment
