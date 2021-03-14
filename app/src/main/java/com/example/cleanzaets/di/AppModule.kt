@@ -69,8 +69,8 @@ class AppModule(private val context: Context) {
 
     @Provides
     @Singleton
-    fun providePostInteractor(postRepository: PostRepository, postModelMapper: PostModelMapper) : PostInteractor {
-        return PostInteractor(postRepository = postRepository, postModelMapper = postModelMapper)
+    fun providePostInteractor(postRepository: PostRepository, postModelMapper: PostModelMapper, resourceRepository: ResourceRepository) : PostInteractor {
+        return PostInteractor(postRepository = postRepository, postModelMapper = postModelMapper, resourceRepository)
     }
 
     @Provides

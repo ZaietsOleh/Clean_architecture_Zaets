@@ -10,4 +10,7 @@
     <string name="error_title_length">Length must be from 3 to 50</string>
     <string name="error_body_length">Length must be from 5 to 500</string>
     <string name="error_title_has_bad_word">Title has a bad word</string>
+    <string name="bad_word_ad">реклама</string>
+    <string name="bad_word_buy">куплю</string>
+    <string name="bad_word_product">товар</string>
 </resources>
