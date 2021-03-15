@@ -7,7 +7,7 @@ import androidx.room.Query
 @Dao
 interface PostDao {
 
-    @Query("SELECT * FROM POST ORDER BY ID_RECORD DESC")
+    @Query("SELECT * FROM POST ORDER BY IDRECORD DESC")
     suspend fun getPosts() : List<Post>
 
     @Insert

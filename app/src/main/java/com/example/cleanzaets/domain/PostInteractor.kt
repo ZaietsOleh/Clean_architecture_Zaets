@@ -31,10 +31,13 @@ class PostInteractor @Inject constructor(
     suspend fun addPost(post: RawPost): AddPostState {
         val title = post.title
         val body = post.body
-        when {
-            title.length < MINIMUM_TITLE_LENGTH || title.length > MAXIMUM_TITLE_LENGTH -> return AddPostState.TITLE_ERROR_LENGTH
-            hasBadWord(title) -> return AddPostState.TITLE_ERROR_BAD_WORD
-            body.length < MINIMUM_BODY_LENGTH || body.length > MAXIMUM_BODY_LENGTH -> return AddPostState.BODY_ERROR_LENGTH
+        val result = when {
+            title.length < MINIMUM_TITLE_LENGTH || title.length > MAXIMUM_TITLE_LENGTH ->
+                AddPostState.TITLE_ERROR_LENGTH
+            hasBadWord(title) -> AddPostState.TITLE_ERROR_BAD_WORD
+            body.length < MINIMUM_BODY_LENGTH || body.length > MAXIMUM_BODY_LENGTH ->
+                AddPostState.BODY_ERROR_LENGTH
+            else -> AddPostState.WITHOUT_ERROR
         }
 
         postRepository.addPost(
@@ -46,7 +49,7 @@ class PostInteractor @Inject constructor(
             )
         )
 
-        return AddPostState.WITHOUT_ERROR
+        return result
     }
 
     private fun hasBadWord(text: String): Boolean {

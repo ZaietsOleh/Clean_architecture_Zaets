@@ -2,7 +2,6 @@ package com.example.cleanzaets.ui.postviewer
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.example.cleanzaets.di.AppModule
