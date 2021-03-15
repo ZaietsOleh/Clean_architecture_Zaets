@@ -2,8 +2,9 @@ package com.example.cleanzaets.data
 
 import com.example.cleanzaets.domain.BadUserModel
 import com.example.cleanzaets.domain.UserStatus
+import javax.inject.Inject
 
-class UserRepository() {
+class UserRepository @Inject constructor() {
     companion object {
         private const val FIRST_WARNINGS_USER = 3
         private const val SECOND_WARNINGS_USER = 4
@@ -11,7 +12,7 @@ class UserRepository() {
     }
 
 
-    fun getBadUsers() : Set<BadUserModel> {
+    fun getBadUsers(): Set<BadUserModel> {
         val badUsers = mutableSetOf<BadUserModel>()
 
         badUsers.add(BadUserModel(FIRST_WARNINGS_USER, UserStatus.HAS_WARNING))

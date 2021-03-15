@@ -1,4 +1,4 @@
-package com.example.cleanzaets.presenter
+package com.example.cleanzaets.ui
 
 import androidx.annotation.ColorInt
 

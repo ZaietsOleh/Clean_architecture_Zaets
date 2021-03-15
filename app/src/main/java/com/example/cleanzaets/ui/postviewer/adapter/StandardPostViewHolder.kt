@@ -1,9 +1,9 @@
-package com.example.cleanzaets
+package com.example.cleanzaets.ui.postviewer.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cleanzaets.databinding.ViewHolderStandartPostBinding
-import com.example.cleanzaets.presenter.PostUiModel
+import com.example.cleanzaets.ui.PostUiModel
 
 class StandardPostViewHolder(view: View): RecyclerView.ViewHolder(view) {
     private val binding: ViewHolderStandartPostBinding by lazy {

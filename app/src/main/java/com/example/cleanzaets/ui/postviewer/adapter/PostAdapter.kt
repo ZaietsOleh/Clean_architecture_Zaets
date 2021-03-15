@@ -1,10 +1,11 @@
-package com.example.cleanzaets
+package com.example.cleanzaets.ui.postviewer.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cleanzaets.presenter.PostUiModel
+import com.example.cleanzaets.R
+import com.example.cleanzaets.ui.PostUiModel
 
 class PostAdapter: ListAdapter<PostUiModel, RecyclerView.ViewHolder>(DiffCallbackPostAdapter()) {
     enum class PostType {
@@ -38,7 +39,6 @@ class PostAdapter: ListAdapter<PostUiModel, RecyclerView.ViewHolder>(DiffCallbac
         when (holder) {
             is StandardPostViewHolder -> holder.onBind(getItem(position) as PostUiModel.StandardPost)
             is BannedPostViewHolder ->  holder.onBind(getItem(position) as PostUiModel.BannedPost)
-
         }
     }
 }

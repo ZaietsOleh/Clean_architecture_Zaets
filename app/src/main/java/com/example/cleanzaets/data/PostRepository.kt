@@ -1,29 +1,26 @@
 package com.example.cleanzaets.data
 
-import com.example.cleanzaets.shared.Result
-import com.example.cleanzaets.domain.PostModel
-import com.example.cleanzaets.domain.PostModelMapper
-import com.example.cleanzaets.shared.PostErrors
-import com.example.cleanzaets.utils.AsyncOperation
-import com.example.cleanzaets.utils.Multithreading
-import com.example.cleanzaets.utils.PostService
+import com.example.cleanzaets.data.datasource.PostService
+import com.example.cleanzaets.data.datasource.database.Post
+import com.example.cleanzaets.data.datasource.database.PostDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class PostRepository (
-    private val multithreading: Multithreading,
+class PostRepository @Inject constructor(
     private val postService: PostService,
-    private val postModelMapper: PostModelMapper
-    ) {
-
-    fun getPosts() : AsyncOperation<Result<List<PostModel>, PostErrors>> {
-        val asyncOperation = multithreading.async<Result<List<Post>, PostErrors>> {
-            val allPosts: List<Post>? = postService.getPosts().execute().body()
-
-            allPosts?.let {
-                return@async Result.success(it)
-            }
-            return@async Result.error(PostErrors.POST_LOADING_ERROR)
+    private val postDao: PostDao
+) {
+    suspend fun getPosts(): List<Post> = withContext(Dispatchers.IO) {
+        val posts = postDao.getPosts()
+        if (posts.isEmpty()) {
+            postDao.insertPosts(postService.getPosts().reversed())
+            postDao.getPosts()
         }
+        posts
+    }
 
-        return asyncOperation.map(postModelMapper::map)
+    suspend fun addPost(post: Post) = withContext(Dispatchers.IO) {
+        postDao.insertPost(post)
     }
 }
